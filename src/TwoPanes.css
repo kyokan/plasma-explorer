@@ -1,0 +1,17 @@
+.two-panes {
+    width: 100%;
+    display: flex;
+    border-radius: 3px;
+}
+
+.two-panes__left {
+    width: 225px;
+}
+
+.two-panes__right {
+    flex: 1 1 100%;
+    background: white;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    overflow: hidden;
+}

@@ -1,0 +1,20 @@
+.block-info {
+    width: 100%;
+    background: white;
+    color: #3f3f3f;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.block-info__header {
+    width: 100%;
+    padding: 24px;
+}
+
+.block-info__header td {
+    vertical-align: baseline;
+}
+
+.block-info__tx-header {
+    padding: 0 24px;
+}
