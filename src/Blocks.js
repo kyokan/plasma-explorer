@@ -7,26 +7,38 @@ import classnames from 'classnames';
 
 const bem = bemify('blocks');
 
+class Block extends Component {
+  render() {
+    const cnames = classnames(bem('block'), {
+      [bem('block', 'active')]: this.props.selectedBlock === this.props.block.header.number,
+    });
+
+    return (
+      <a
+        className={cnames}
+        key={this.props.block.hash}
+        onClick={() => this.props.selectBlock(this.props.block.header.number)}
+      >
+        <div className={bem('number')}>
+          Block #{this.props.block.header.number}
+        </div>
+        <div className={bem('count')}>
+          Transactions: {this.props.block.transactions.length}
+        </div>
+      </a>
+    );
+  }
+}
+
 export class Blocks extends Component {
   render() {
     return (
       <div className={bem()}>
-        {this.props.blocks.map((block) => {
-          const cnames = classnames(bem('block'), {
-            [bem('block', 'active')]: this.props.selectedBlock === block.header.number
-          });
-
-          return (
-            <a className={cnames} key={block.hash} onClick={() => this.props.selectBlock(block.header.number)}>
-              <div className={bem('number')}>
-                Block #{block.header.number}
-              </div>
-              <div className={bem('count')}>
-                Transactions: {block.transactions.length}
-              </div>
-            </a>
-          );
-        })}
+        {this.props.blocks.map((block) => <Block
+          selectedBlock={this.props.selectedBlock}
+          block={block}
+          selectBlock={this.props.selectBlock}
+        />)}
       </div>
     );
   }

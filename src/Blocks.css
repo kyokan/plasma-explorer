@@ -1,4 +1,7 @@
 .blocks {
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 .blocks__block {
@@ -6,16 +9,13 @@
     background: #2c343f;
     padding: 24px;
     transition: background .25s ease-in-out;
+    animation: fade-in 0.25s ease-in;
     cursor: pointer;
     position: relative;
 }
 
-.blocks__block:first-child {
-    border-top-left-radius: 3px;
-}
-
-.blocks__block:last-child {
-    border-bottom-left-radius: 3px;
+.blocks__block--done-animating {
+    opacity: 1;
 }
 
 .blocks__block:hover, .blocks__block--active {
@@ -23,17 +23,8 @@
     color: #3f3f3f;
 }
 
-.blocks__block--active:after {
-    position: absolute;
-    top: -2px;
-    right: -2px;
-    width: 4px;
-    bottom: -2px;
-    background: #F35F42;
-    content: '';
-    display: block;
-    z-index: 2;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.35);
+.blocks__block--active {
+    border-right: 4px solid #F35F42;
 }
 
 .blocks__number {
@@ -43,4 +34,14 @@
 
 .blocks__count {
     font-size: 16px;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }

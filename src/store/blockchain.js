@@ -3,19 +3,32 @@ export const SET_BLOCKS = 'BLOCKCHAIN/SET_BLOCKS';
 export const SELECT_BLOCK = 'BLOCKCHAIN/SELECT_BLOCK';
 
 export function populateChain() {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     const res = await requestJson('blockheight');
-    const height = Number(res.height);
+    const blockHeight = Number(res.height);
+    const shownHeight = getState().blockHeight;
+    if (shownHeight === blockHeight) {
+      setTimeout(() => dispatch(populateChain()), 5000);
+      return;
+    }
+
     dispatch({
       type: SET_BLOCK_HEIGHT,
       payload: {
-        height
+        blockHeight
       }
     });
 
-    let count = height > 10 ? height - 10 : 1;
+    let start;
+
+    if (shownHeight) {
+      start = blockHeight - (blockHeight - shownHeight);
+    } else {
+      start = blockHeight > 10 ? blockHeight - 10 : 0
+    }
+
     const blocks = [];
-    for (let i = height; i >= count; i--) {
+    for (let i = blockHeight; i > start; i--) {
       const blockRes = await requestJson(`block/${i}`);
       const block = blockRes.block;
       block.hash = toHex(block.hash);
@@ -68,6 +81,8 @@ export function populateChain() {
         blocks
       }
     });
+
+    setTimeout(() => dispatch(populateChain()), 1000);
   }
 }
 
@@ -144,12 +159,13 @@ function setBlockHeight(state, action) {
 function setBlocks(state, action) {
   return {
     ...state,
-    selectedBlock: action.payload.blocks[0].header.number,
-    blocks: action.payload.blocks,
+    selectedBlock: state.selectedBlock ? state.selectedBlock :
+      action.payload.blocks[0].header.number,
+    blocks: [].concat(action.payload.blocks).concat(state.blocks),
     blockCache: action.payload.blocks.reduce((acc, curr) => {
       acc[curr.header.number] = curr;
       return acc
-    }, {})
+    }, { ...state.blockCache })
   }
 }
 

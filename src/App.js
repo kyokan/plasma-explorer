@@ -8,6 +8,7 @@ import store from './store';
 import { populateChain } from './store/blockchain';
 import logo from './logo.svg';
 import loading from './loading.svg';
+import Header from './Header';
 
 class Inner extends Component {
   constructor(props) {
@@ -28,9 +29,7 @@ class Inner extends Component {
   render() {
     return (
       <div className="app">
-        <a href="https://kyokan.io" className="app__logo">
-          <img src={logo} alt="Kyokan" />
-        </a>
+        <Header />
         {this.renderLoading()}
       </div>
     );

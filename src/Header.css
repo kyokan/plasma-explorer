@@ -1,0 +1,19 @@
+.header {
+    padding: 24px;
+    display: flex;
+    align-items: center;
+}
+
+.header__logo {
+    width: 150px;
+    display: block;
+}
+
+.header__logo img {
+    width: 100%;
+}
+
+.header__info {
+    font-size: 20px;
+    margin-left: auto;
+}
